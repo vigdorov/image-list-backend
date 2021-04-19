@@ -34,6 +34,16 @@ export class AppService {
         }));
     }
 
+    async getUserList(searchLogin: string): Promise<string[]> {
+        const authorList = await this.authorModel.find().exec();
+        return authorList.reduce((acc, {login}) => {
+            if (login.includes(searchLogin)) {
+                acc.push(login);
+            }
+            return acc;
+        }, []);
+    }
+
     async authUser(login: string): Promise<string> {
         const authorList = await this.authorModel.find().exec();
         const searchAuthor = authorList.find((author) => author.login === login);

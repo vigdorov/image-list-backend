@@ -2,10 +2,10 @@ import {Controller, Delete, Get, Header, HttpCode, Options, Post, Put, Req} from
 import {AppService} from './app.service';
 import {AuthRequest, ImageCreateRequest} from './schemas';
 import {Request} from 'express';
-import {ApiBody, ApiParam, ApiResponse, ApiSecurity, ApiTags} from '@nestjs/swagger';
+import {ApiBody, ApiParam, ApiQuery, ApiResponse, ApiSecurity, ApiTags} from '@nestjs/swagger';
 import {Image, ImageCreate} from './types';
 import {ALLOW_CREDENTIALS, ALLOW_HEADERS, ALLOW_METHOD, ALLOW_ORIGIN_ALL, CONTENT_LENGTH} from './consts';
-import {AUTH_ERROR, AUTH_SUCCESS, GET_IMAGE_LIST_SUCCESS, MANIPULATE_IMAGE_SUCCESS} from './api.responses';
+import {AUTH_ERROR, AUTH_SUCCESS, GET_IMAGE_LIST_SUCCESS, GET_USER_LIST_SUCCESS, MANIPULATE_IMAGE_SUCCESS} from './api.responses';
 
 @Controller()
 @ApiTags('image-app')
@@ -35,6 +35,23 @@ export class AppController {
     ): Promise<Image[]> {
         await this.appService.checkRequest(request.headers.authorization);
         return this.appService.getImageList();
+    }
+
+    @Get('/users')
+    @ApiSecurity('apiKey')
+    @Header(...ALLOW_ORIGIN_ALL)
+    @ApiQuery({
+        name: 'login',
+        description: 'Часть логина пользователя',
+        required: false,
+    })
+    @ApiResponse(GET_USER_LIST_SUCCESS)
+    @ApiResponse(AUTH_ERROR)
+    async getUserList(
+        @Req() request: Request<null, null, null, {login?: string}>
+    ): Promise<string[]> {
+        await this.appService.checkRequest(request.headers.authorization);
+        return this.appService.getUserList(request.query.login ?? '');
     }
 
     @Get('/list/:id')

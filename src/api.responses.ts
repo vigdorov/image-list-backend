@@ -25,6 +25,13 @@ export const GET_IMAGE_LIST_SUCCESS: ApiResponseOptions = {
     isArray: true
 };
 
+export const GET_USER_LIST_SUCCESS: ApiResponseOptions = {
+    status: 200,
+    description: 'Список всех пользователей',
+    type: String,
+    isArray: true
+};
+
 export const MANIPULATE_IMAGE_SUCCESS: ApiResponseOptions = {
     status: 200,
     description: 'Картинка',
