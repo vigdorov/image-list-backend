@@ -26,11 +26,12 @@ export class AppService {
 
     async getImageList(): Promise<Image[]> {
         const imageList = await this.imageModel.find().exec();
-        return imageList.map(({url, author, likes, id}) => ({
+        return imageList.map(({url, author, likes, id, create_at}) => ({
             url,
             author,
             likes,
             id,
+            create_at,
         }));
     }
 
@@ -65,6 +66,7 @@ export class AppService {
             url: image.url,
             likes: [],
             author: login,
+            create_at: new Date().toISOString()
         });
         try {
             await imageModel.validate();
@@ -78,6 +80,7 @@ export class AppService {
             author: newImage.author,
             likes: [],
             id: newImage.id,
+            create_at: newImage.create_at,
         };
     }
 
@@ -89,6 +92,7 @@ export class AppService {
                 author: searchImage.author,
                 likes: searchImage.likes,
                 id: searchImage.id,
+                create_at: searchImage.create_at,
             };
         }
         throw new BadRequestException(`Картинка с id - "${id}" не найдена`);
@@ -110,6 +114,7 @@ export class AppService {
             author: searchImage.author,
             likes: searchImage.likes,
             id: searchImage.id,
+            create_at: searchImage.create_at,
         };
     }
 
@@ -130,6 +135,7 @@ export class AppService {
             author: searchImage.author,
             likes: updatedLikes,
             id: searchImage.id,
+            create_at: searchImage.create_at,
         };
     }
 }

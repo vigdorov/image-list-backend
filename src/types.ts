@@ -6,6 +6,7 @@ export type Image = {
     url: string;
     author: string;
     likes: string[];
+    create_at: string;
     id: string;
 };
 

@@ -33,6 +33,9 @@ export class ImageResponse implements Image {
 
     @ApiProperty()
     id: string;
+
+    @ApiProperty()
+    create_at: string;
 }
 
 @Schema()
@@ -69,6 +72,12 @@ export class ImageDocument extends Document {
         required: true,
     })
     likes: string[];
+
+    @Prop({
+        type: String,
+        required: true,
+    })
+    create_at: string;
 }
 
 export const ImageScheme = SchemaFactory.createForClass(ImageDocument);
