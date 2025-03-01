@@ -1,0 +1,52 @@
+### use REST Client plugin for VSCode https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+@host = http://localhost:4003
+@user = test_user
+@auth = 3f46c57f-ac55-4a21-b920-36b6bfd793bf
+@image_id = 67c315159c9e492f30ac8c88
+
+### Auth
+POST {{host}}/auth HTTP/1.1
+content-type: application/json
+
+{
+    "login": "{{user}}"
+}
+
+### Get image list
+GET {{host}}/list HTTP/1.1
+content-type: application/json
+Authorization: {{auth}}
+
+{
+    "login": "test_user"
+}
+
+### Get Users with search
+GET {{host}}/users?login= HTTP/1.1
+content-type: application/json
+Authorization: {{auth}}
+
+
+### Create image
+POST {{host}}/list HTTP/1.1
+content-type: application/json
+Authorization: {{auth}}
+
+{
+  "url": "https://images.wallpaperscraft.com/image/single/boat_mountains_lake_135258_3840x2400.jpg"
+}
+
+### Get image
+GET {{host}}/list/{{image_id}} HTTP/1.1
+content-type: application/json
+Authorization: {{auth}}
+
+### Toggle like image
+PUT {{host}}/list/{{image_id}} HTTP/1.1
+content-type: application/json
+Authorization: {{auth}}
+
+### Remove image
+DELETE {{host}}/list/{{image_id}} HTTP/1.1
+content-type: application/json
+Authorization: {{auth}}
